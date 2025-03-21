@@ -17,7 +17,6 @@ searchBtn.addEventListener("click", async () => {
 
   if (!inputData) {
     errorMsg.textContent = "Please Enter City Name";
-    // countryImg.src = "";
     return;
   }
 
@@ -34,10 +33,24 @@ searchBtn.addEventListener("click", async () => {
       countryImg.src = responseData[0]?.flags?.png;
       capital.textContent = responseData[0]?.capital;
       population.textContent = responseData[0]?.population;
-      currency.textContent = responseData[0]?.currencies?.INR?.name || 'Currency Not Found';
-      commonLanguage.textContent = responseData[0]?.languages?.eng || "Language Not Found";
+      currency.textContent =
+        responseData[0]?.currencies?.INR?.name || "Currency Not Found";
+      commonLanguage.textContent =
+        responseData[0]?.languages?.eng || "Language Not Found";
       timeZone.textContent = responseData[0]?.timezones || "TimeZone Not Found";
-      localStorage.setItem('country',inputData)
+      localStorage.setItem(
+        "countryData",
+        JSON.stringify({
+          name: responseData[0]?.name?.common,
+          flag: responseData[0]?.flags?.png,
+          capital: responseData[0]?.capital,
+          population: responseData[0]?.population,
+          currency:
+            responseData[0]?.currencies?.INR?.name || "Currency Not Found",
+          language: responseData[0]?.languages?.eng || "Language Not Found",
+          timeZone: responseData[0]?.timezones || "TimeZone Not Found",
+        })
+      );
       countryInput.value = "";
       resultDiv.style.display = "block";
     } else {
@@ -47,3 +60,22 @@ searchBtn.addEventListener("click", async () => {
     }
   } catch {}
 });
+
+window.onload = () => {
+  const storedData = localStorage.getItem("countryData");
+
+  if (storedData) {
+    const countryData = JSON.parse(storedData);
+
+    countryName.textContent = countryData.name;
+    countryImg.src = countryData.flag;
+    capital.textContent = countryData.capital;
+    population.textContent = countryData.population;
+    currency.textContent = countryData.currency;
+    commonLanguage.textContent = countryData.language;
+    timeZone.textContent = countryData.timeZone;
+
+    resultDiv.style.display = "block";
+  }
+};
+
