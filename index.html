@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Country Guide App</title>
+    <!--Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="search-wrapper">
+        <input
+          type="text"
+          id="country-inp"
+          placeholder="Enter a country name here..."
+        />
+        <button id="search-btn">Search</button>
+        <p id="errorMsg"></p>
+      </div>
+      <div id="result">
+        <div class="flag-img">
+          <img src="" id="countryImg" alt="" />
+          <h2 id="countryName"></h2>
+        </div>
+        <div>
+          <p class="text">Capital: <span class="impText" id="capital"></span></p>
+          <p class="text">Population: <span class="impText" id="population"></span> </p>
+          <p class="text">Currency: <span class="impText" id="currency"></span> </p>
+          <p class="text">Common Language: <span class="impText" id="commonLangauge"></span> </p>
+          <p class="text">Time Zone: <span class="impText" id="timeZone"></span> </p>
+        </div>
+      </div>
+    </div>
+    <!-- Script -->
+    <script src="./script.js"></script>
+  </body>
+</html>
