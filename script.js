@@ -26,33 +26,42 @@ searchBtn.addEventListener("click", async () => {
       `https://restcountries.com/v3.1/name/${inputData}?fullText=true`
     );
     const responseData = await data.json();
-    console.log("Api response", responseData);
 
-    if (responseData.length > 0) {
-      countryName.textContent = responseData[0]?.name?.common;
-      countryImg.src = responseData[0]?.flags?.png;
-      capital.textContent = responseData[0]?.capital;
-      population.textContent = responseData[0]?.population;
-      currency.textContent =
-        responseData[0]?.currencies?.INR?.name || "Currency Not Found";
-      commonLanguage.textContent =
-        responseData[0]?.languages?.eng || "Language Not Found";
-      timeZone.textContent = responseData[0]?.timezones || "TimeZone Not Found";
+    if (responseData.length >=   0) {
+      const res = responseData && responseData[0];
+  
       localStorage.setItem(
         "countryData",
         JSON.stringify({
-          name: responseData[0]?.name?.common,
-          flag: responseData[0]?.flags?.png,
-          capital: responseData[0]?.capital,
-          population: responseData[0]?.population,
+          name: res?.name?.common,
+          flag: res?.flags?.png,
+          capital: res?.capital,
+          population: res?.population.toLocaleString(),
           currency:
-            responseData[0]?.currencies?.INR?.name || "Currency Not Found",
-          language: responseData[0]?.languages?.eng || "Language Not Found",
-          timeZone: responseData[0]?.timezones || "TimeZone Not Found",
+          Object.values(res.currencies)[0]?.name || "Currency Not Found",
+          language: Object.values(res.languages).map(elem => elem).join(' | ') || "Language Not Found",
+          timeZone: res?.timezones || "TimeZone Not Found",
         })
       );
       countryInput.value = "";
       resultDiv.style.display = "block";
+
+
+  const storedData = localStorage.getItem("countryData");
+
+  if (storedData) {
+    const countryData = JSON.parse(storedData);
+    console.log(countryData)
+    countryName.textContent = countryData.name;
+    countryImg.src = countryData.flag;
+    capital.textContent = countryData.capital;
+    population.textContent = countryData.population;
+    currency.textContent =countryData.currency;
+    commonLanguage.textContent = countryData.language;
+    timeZone.textContent = countryData.timeZone;
+
+    resultDiv.style.display = "block";
+  }
     } else {
       countryName.textContent = `Country Not Found`;
       countryImg.src = `Image Not Found`;
@@ -61,21 +70,4 @@ searchBtn.addEventListener("click", async () => {
   } catch {}
 });
 
-window.onload = () => {
-  const storedData = localStorage.getItem("countryData");
-
-  if (storedData) {
-    const countryData = JSON.parse(storedData);
-
-    countryName.textContent = countryData.name;
-    countryImg.src = countryData.flag;
-    capital.textContent = countryData.capital;
-    population.textContent = countryData.population;
-    currency.textContent = countryData.currency;
-    commonLanguage.textContent = countryData.language;
-    timeZone.textContent = countryData.timeZone;
-
-    resultDiv.style.display = "block";
-  }
-};
 
